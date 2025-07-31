@@ -137,9 +137,18 @@ class RestaurantRecommender:
             
             for row in reader:
                 customer_id = row['customer_id']
-                location_num = int(row['location_number'])
-                customer_lat = float(row['latitude'])
-                customer_lon = float(row['longitude'])
+                
+                # Skip rows with empty latitude or longitude
+                if not row['latitude'] or not row['longitude']:
+                    continue
+                
+                try:
+                    location_num = int(row['location_number'])
+                    customer_lat = float(row['latitude'])
+                    customer_lon = float(row['longitude'])
+                except (ValueError, TypeError):
+                    # Skip invalid coordinate data
+                    continue
                 
                 # Score all vendors for this customer-location
                 vendor_scores = []
