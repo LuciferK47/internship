@@ -37,6 +37,9 @@ def main():
         customer_locations = train_locations[train_locations['customer_id'] == customer_id]
         
         for _, location in customer_locations.iterrows():
+            # Skip locations with missing coordinates
+            if pd.isna(location['latitude']) or pd.isna(location['longitude']):
+                continue
             for _, vendor in vendors.iterrows():
                 # Calculate distance
                 distance = haversine_distance(
@@ -85,6 +88,9 @@ def main():
         customer_locations = test_locations[test_locations['customer_id'] == customer_id]
         
         for _, location in customer_locations.iterrows():
+            # Skip locations with missing coordinates
+            if pd.isna(location['latitude']) or pd.isna(location['longitude']):
+                continue
             for _, vendor in vendors.iterrows():
                 distance = haversine_distance(
                     location['latitude'], location['longitude'],

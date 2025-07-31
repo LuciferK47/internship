@@ -47,12 +47,21 @@ with open('Test/test_locations.csv', 'r') as f:
     for row in reader:
         customer_id = row['customer_id']
         if customer_id in test_customers:
-            test_data.append({
-                'customer_id': customer_id,
-                'location_number': int(row['location_number']),
-                'lat': float(row['latitude']),
-                'lon': float(row['longitude'])
-            })
+            # Skip rows with empty latitude or longitude
+            if not row['latitude'] or not row['longitude']:
+                continue
+            try:
+                lat = float(row['latitude'])
+                lon = float(row['longitude'])
+                test_data.append({
+                    'customer_id': customer_id,
+                    'location_number': int(row['location_number']),
+                    'lat': lat,
+                    'lon': lon
+                })
+            except (ValueError, TypeError):
+                # Skip invalid coordinate data
+                continue
 
 print(f"Loaded {len(test_data)} test location records")
 
