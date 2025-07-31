@@ -1,0 +1,8 @@
+Loading data...
+Loaded 100 vendors
+Loaded orders for 27445 customers
+Traceback (most recent call last):
+  File "/workspace/simple_recommender.py", line 53, in <module>
+    'lat': float(row['latitude']),
+           ~~~~~^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: ''
